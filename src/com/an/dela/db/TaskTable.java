@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.format.DateFormat;
 
 import com.an.db.Table;
-import com.an.dela.activities.TaskNotes;
 
 public class TaskTable implements Table<Integer, TaskRecord> {
 
@@ -147,8 +146,13 @@ public class TaskTable implements Table<Integer, TaskRecord> {
 			values.put(TaskContract.COLUMN_PRIORITY, priority);
 		if (-1 != status)
 			values.put(TaskContract.COLUMN_STATUS, status);
-		if (null != notes) 
+		if (null != notes)
 			values.put(TaskContract.COLUMN_NOTES, notes);
+
+		values.put(TaskContract.COLUMN_IS_ALARM, record.isAlarm());
+		values.put(TaskContract.COLUMN_IS_REPEATING, record.isRepeating());
+		values.put(TaskContract.COLUMN_REPEAT_MS_INTERVAL,
+				record.getRepeatingMsInterval());
 
 		return values;
 	}
@@ -170,6 +174,11 @@ public class TaskTable implements Table<Integer, TaskRecord> {
 				c.getInt(c.getColumnIndex(TaskContract.COLUMN_STATUS)));
 		record.set(TaskContract.COLUMN_NOTES,
 				c.getString(c.getColumnIndex(TaskContract.COLUMN_NOTES)));
+		record.setAlarm(c.getInt(c.getColumnIndex(TaskContract.COLUMN_IS_ALARM)));
+		record.setRepeating(c.getInt(c
+				.getColumnIndex(TaskContract.COLUMN_IS_ALARM)));
+		record.setRepeatingMsInterval(c.getLong(c
+				.getColumnIndex(TaskContract.COLUMN_REPEAT_MS_INTERVAL)));
 
 		return record;
 	}
