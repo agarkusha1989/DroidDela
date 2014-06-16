@@ -1,6 +1,7 @@
 package com.an.dela.activities;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,7 +58,9 @@ public class Main extends ListActivity {
 	}
 	
 	private void actionAddTask() {
-		
+		Intent intent = new Intent(this, AddTask.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 	
 	private void actionHelp() {

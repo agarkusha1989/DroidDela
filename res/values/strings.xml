@@ -5,6 +5,9 @@
     <string name="priority">Priority</string>
     <string name="begin">Begin</string>
     <string name="expires">Expires</string>
+    <string name="title">Title</string>
+    <string name="save">Save</string>
+    <string name="enter_title">Enter title</string>
     <string name="action_add_task">Add Task</string>
     <string name="action_help">Help</string>
 
