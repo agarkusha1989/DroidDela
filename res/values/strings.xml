@@ -3,5 +3,7 @@
     <string name="app_name">Dela</string>
     <string name="status">Status</string>
     <string name="priority">Priority</string>
+    <string name="begin">Begin</string>
+    <string name="expires">Expires</string>
 
 </resources>
