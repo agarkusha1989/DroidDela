@@ -5,5 +5,7 @@
     <string name="priority">Priority</string>
     <string name="begin">Begin</string>
     <string name="expires">Expires</string>
+    <string name="action_add_task">Add Task</string>
+    <string name="action_help">Help</string>
 
 </resources>
