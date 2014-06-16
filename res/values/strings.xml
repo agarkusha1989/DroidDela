@@ -24,5 +24,11 @@
     </string-array>
 
     <string name="enter_notes">Enter notes</string>
+    <string name="action_set_status">Set status</string>
+    <string-array name="status">
+        <item >New</item>
+        <item >Performed</item>
+        <item >Completed</item>
+    </string-array>
 
 </resources>

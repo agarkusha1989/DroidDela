@@ -22,6 +22,7 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text=""
             android:textSize="@dimen/title_text_size" />
     </LinearLayout>
@@ -29,20 +30,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:padding="@dimen/field_wrapper_margin" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/label_right_margin"
+            android:layout_weight="1"
             android:text="@string/begin"
             android:textSize="@dimen/datetime_text_size"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/datetime"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:text=""
             android:textSize="@dimen/datetime_text_size" />
     </LinearLayout>
@@ -50,20 +54,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:padding="@dimen/field_wrapper_margin" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/label_right_margin"
+            android:layout_weight="1"
             android:text="@string/expires"
             android:textSize="@dimen/datetime_text_size"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/expires"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:text=""
             android:textSize="@dimen/datetime_text_size" />
     </LinearLayout>
