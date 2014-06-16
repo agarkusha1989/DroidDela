@@ -11,7 +11,7 @@ public class TaskContract {
 	public static final String COLUMN_PRIORITY = "task_priority";
 	public static final String COLUMN_STATUS = "task_status";
 
-	public static final String SQL_CREATE_TABLE = "create table " + TABLE_NAME
+	public static final String SQL_CREATE_TABLE = "create table " + TABLE_NAME + " ("
 			+ COLUMN_ID + " integer primary key autoincrement, " 
 			+ COLUMN_TITLE + " text not null, " 
 			+ COLUMN_DATETIME + " datetime not null, "
