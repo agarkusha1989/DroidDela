@@ -11,4 +11,10 @@
     <string name="action_add_task">Add Task</string>
     <string name="action_help">Help</string>
 
+    <string-array name="priority">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
+
 </resources>

@@ -7,5 +7,8 @@
     <dimen name="title_text_size">32px</dimen>
     <dimen name="datetime_text_size">28px</dimen>
     <dimen name="label_right_margin">10px</dimen>
+    <dimen name="field_wrapper_margin">10dp</dimen>
+    <dimen name="text_size">20dp</dimen>
+    <dimen name="text_size_small">14dp</dimen>
     
 </resources>

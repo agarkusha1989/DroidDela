@@ -21,7 +21,11 @@ public class Main extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
 		TaskRecord[] records = Db.getInstance(this).getTaskTable().select();
 
 		setListAdapter(new TaskListAdapter(this, records));
@@ -29,7 +33,7 @@ public class Main extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		String item = (String) getListAdapter().getItem(position);
+		TaskRecord item = (TaskRecord) getListAdapter().getItem(position);
 		Toast.makeText(this, "Выбрана задача: " + item, Toast.LENGTH_SHORT)
 				.show();
 	}
