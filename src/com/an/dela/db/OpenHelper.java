@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class OpenHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "dela.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 
 	public OpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

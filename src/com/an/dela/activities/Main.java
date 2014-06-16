@@ -1,6 +1,9 @@
 package com.an.dela.activities;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -15,10 +18,13 @@ import android.widget.ListView;
 import com.an.dela.R;
 import com.an.dela.activities.adapters.TaskListAdapter;
 import com.an.dela.db.Db;
+import com.an.dela.db.TaskContract;
 import com.an.dela.db.TaskRecord;
 
 public class Main extends ListActivity {
 
+	private int selectedStatus = TaskRecord.STATUS_NEW; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,6 +72,9 @@ public class Main extends ListActivity {
 			Db.getInstance(this).getTaskTable().delete(taskRecord);
 			updateTaskListView();
 			return true;
+		case R.id.action_set_status:
+			actionSetStatus(taskRecord);
+			return true;
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -107,6 +116,30 @@ public class Main extends ListActivity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(ChangeTask.EXTRA_TASK_ID, taskRecord.getId());
 		startActivity(intent);
+	}
+	
+	private void actionSetStatus(final TaskRecord taskRecord) {
+		final String[] statusArray = getResources().getStringArray(R.array.status);
+	
+		selectedStatus = taskRecord.getStatus();
+		
+		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+		dialog.setTitle(getResources().getString(R.id.action_set_status));
+		dialog.setSingleChoiceItems(statusArray, taskRecord.getStatus(), new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				onChangeTaskStatus(taskRecord, which);
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+	}
+	
+	private void onChangeTaskStatus(TaskRecord taskRecord, int status) {
+		taskRecord.set(TaskContract.COLUMN_STATUS, status);
+		taskRecord = Db.getInstance(this).getTaskTable().update(taskRecord);
+		updateTaskListView();
 	}
 	
 	private void updateTaskListView() {
