@@ -5,6 +5,7 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -13,7 +14,12 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.SeekBar;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -23,7 +29,12 @@ import com.an.dela.db.TaskRecord;
 
 public class AddTask extends Activity {
 
+	public static final int MINUTE_INTERVAL_MIN = 1;
+	public static final int MINUTE_INTERVAL_MAX = 20;
+	
 	private TextView titleTextView;
+	private CheckBox alarmCheckBox;
+	private CheckBox repeatingCheckBox;
 	private Button beginDate;
 	private Button beginTime;
 	private Button expiresDate;
@@ -34,6 +45,7 @@ public class AddTask extends Activity {
 	private Calendar expiresCalendar = Calendar.getInstance();
 	
 	private int priority = TaskRecord.PRIORITY_HIGH;
+	private int repeatingInterval = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +53,8 @@ public class AddTask extends Activity {
 		setContentView(R.layout.activity_add_task);
 
 		titleTextView = (TextView) findViewById(R.id.title);
+		alarmCheckBox = (CheckBox) findViewById(R.id.is_alarm);
+		repeatingCheckBox = (CheckBox) findViewById(R.id.is_repeating);
 		beginDate = (Button) findViewById(R.id.begin_date);
 		beginTime = (Button) findViewById(R.id.begin_time);
 		expiresDate = (Button) findViewById(R.id.expires_date);
@@ -52,6 +66,93 @@ public class AddTask extends Activity {
 
 		priorityButton.setText(getResources().getStringArray(R.array.priority)[0]);
 		updateCalendars();
+
+		alarmCheckBox.setChecked(true);
+		alarmCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (!isChecked) {
+					repeatingCheckBox.setEnabled(false);
+					beginDate.setEnabled(false);
+					beginTime.setEnabled(false);
+					expiresDate.setEnabled(false);
+					expiresTime.setEnabled(false);
+				} else {
+					repeatingCheckBox.setEnabled(true);
+					beginDate.setEnabled(true);
+					beginTime.setEnabled(true);
+					expiresDate.setEnabled(true);
+					expiresTime.setEnabled(true);
+				}
+			}
+		});
+		
+		repeatingCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					showSeekBarDialog();
+				}
+			}
+		});
+	}
+	
+	private void showSeekBarDialog() {
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.dialog_set_repeating_interval);
+		dialog.setTitle(getString(R.string.set_repeating_interval));
+		
+		Button okButton = (Button) dialog.findViewById(R.id.ok_button);
+		Button cancelButton = (Button) dialog.findViewById(R.id.cancel_button);
+		final TextView textView = (TextView) dialog.findViewById(R.id.interval_value);
+		SeekBar seekBar = (SeekBar) dialog.findViewById(R.id.interval);
+		
+		textView.setText(Integer.toString(repeatingInterval));
+		seekBar.setMax(MINUTE_INTERVAL_MAX);
+		seekBar.setProgress(repeatingInterval);
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				if (progress < MINUTE_INTERVAL_MIN) {
+					textView.setText("1");
+					repeatingInterval = 1;
+				} else {
+					textView.setText(Integer.toString(progress));
+					repeatingInterval = progress;
+				}
+			}
+		});
+		
+		okButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
+		dialog.show();
 	}
 
 	public void onClickBeginDate(View view) {
@@ -145,8 +246,16 @@ public class AddTask extends Activity {
 		String title = titleTextView.getText().toString();
 		String beginDatetime = DateFormat.format("yyyy-MM-dd kk:mm:ss", beginCalendar).toString();
 		String expiresDatetime = DateFormat.format("yyyy-MM-dd kk:mm:ss", expiresCalendar).toString();
+		boolean isAlarm = alarmCheckBox.isChecked();
+		boolean isRepeating = isAlarm ? repeatingCheckBox.isChecked() : false;
+		long repeatingMsInterval = repeatingInterval * 1000 * 60;
 		
-		Db.getInstance(this).getTaskTable().insert(TaskRecord.create(title, beginDatetime, expiresDatetime, priority));
+		TaskRecord record = TaskRecord.create(title, beginDatetime, expiresDatetime, priority);
+		record.setAlarm(isAlarm);
+		record.setRepeating(isRepeating);
+		record.setRepeatingMsInterval(repeatingMsInterval);
+		
+		record = Db.getInstance(this).getTaskTable().insert(record);
 		
 		finish();
 	}

@@ -30,5 +30,11 @@
         <item >Performed</item>
         <item >Completed</item>
     </string-array>
+    <string name="alarm">Alarm</string>
+    <string name="repeating">Repeating</string>
+    <string name="interval">Interval</string>
+    <string name="value">Value</string>
+    <string name="set_repeating_interval">Set repeating interval</string>
+    <string name="value_in_minutes">Value in minutes</string>
 
 </resources>
