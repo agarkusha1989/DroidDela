@@ -34,6 +34,10 @@ public class TaskRecord extends Record {
 		return getString(TaskContract.COLUMN_TITLE, "");
 	}
 	
+	public String getNotes() {
+		return getString(TaskContract.COLUMN_NOTES, "");
+	}
+	
 	public Date getDateDatetime() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {

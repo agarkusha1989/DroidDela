@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.format.DateFormat;
 
 import com.an.db.Table;
+import com.an.dela.activities.TaskNotes;
 
 public class TaskTable implements Table<Integer, TaskRecord> {
 
@@ -20,15 +21,16 @@ public class TaskTable implements Table<Integer, TaskRecord> {
 		TaskRecord record = null;
 
 		String selection = TaskContract.COLUMN_ID + " = " + key;
-		
+
 		Cursor c = sqliteOpenHelper.getReadableDatabase().query(
 				TaskContract.TABLE_NAME, null, selection, null, null, null,
 				null);
-		
-		if (c.moveToFirst()) record = cursorToRecord(c);
-		
+
+		if (c.moveToFirst())
+			record = cursorToRecord(c);
+
 		c.close();
-		
+
 		return record;
 	}
 
@@ -71,13 +73,13 @@ public class TaskTable implements Table<Integer, TaskRecord> {
 	@Override
 	public TaskRecord update(TaskRecord record) {
 		int id = record.getInt(TaskContract.COLUMN_ID, -1);
-		
+
 		if (-1 != id) {
 			ContentValues values = recordToContentValues(record);
 			String whereClause = TaskContract.COLUMN_ID + " = " + id;
-	
-			sqliteOpenHelper.getWritableDatabase().update(TaskContract.TABLE_NAME,
-					values, whereClause, null);
+
+			sqliteOpenHelper.getWritableDatabase().update(
+					TaskContract.TABLE_NAME, values, whereClause, null);
 		}
 
 		return record;
@@ -96,12 +98,12 @@ public class TaskTable implements Table<Integer, TaskRecord> {
 	@Override
 	public void delete(TaskRecord record) {
 		int id = record.getInt(TaskContract.COLUMN_ID, -1);
-		
+
 		if (-1 != id) {
 			String whereClause = TaskContract.COLUMN_ID + " = " + id;
-	
-			sqliteOpenHelper.getWritableDatabase().delete(TaskContract.TABLE_NAME,
-					whereClause, null);
+
+			sqliteOpenHelper.getWritableDatabase().delete(
+					TaskContract.TABLE_NAME, whereClause, null);
 		}
 	}
 
@@ -122,6 +124,7 @@ public class TaskTable implements Table<Integer, TaskRecord> {
 
 		int id = record.getInt(TaskContract.COLUMN_ID, -1);
 		String title = record.getString(TaskContract.COLUMN_TITLE, null);
+		String notes = record.getString(TaskContract.COLUMN_NOTES, null);
 		String datetime = record.getString(TaskContract.COLUMN_DATETIME, null);
 		String expires = record.getString(TaskContract.COLUMN_DATETIME_EXPIRES,
 				null);
@@ -144,6 +147,8 @@ public class TaskTable implements Table<Integer, TaskRecord> {
 			values.put(TaskContract.COLUMN_PRIORITY, priority);
 		if (-1 != status)
 			values.put(TaskContract.COLUMN_STATUS, status);
+		if (null != notes) 
+			values.put(TaskContract.COLUMN_NOTES, notes);
 
 		return values;
 	}
@@ -163,6 +168,8 @@ public class TaskTable implements Table<Integer, TaskRecord> {
 				c.getInt(c.getColumnIndex(TaskContract.COLUMN_PRIORITY)));
 		record.set(TaskContract.COLUMN_STATUS,
 				c.getInt(c.getColumnIndex(TaskContract.COLUMN_STATUS)));
+		record.set(TaskContract.COLUMN_NOTES,
+				c.getString(c.getColumnIndex(TaskContract.COLUMN_NOTES)));
 
 		return record;
 	}
