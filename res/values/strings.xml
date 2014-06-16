@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">DroidDela</string>
@@ -21,6 +22,7 @@
         <item>Medium</item>
         <item>Low</item>
     </string-array>
+
     <string name="enter_notes">Enter notes</string>
 
 </resources>

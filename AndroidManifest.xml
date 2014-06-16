@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.an.dela"
     android:versionCode="1"
@@ -13,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activities.Main"
+            android:name="com.an.dela.activities.Main"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -23,19 +24,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AddTask"
+            android:name="com.an.dela.activities.AddTask"
             android:label="@string/app_name"
-            android:parentActivityName=".activities.Main"
+            android:parentActivityName="com.an.dela.activities.Main"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activities.TaskNotes"
+            android:name="com.an.dela.activities.TaskNotes"
             android:label="@string/app_name"
-            android:parentActivityName=".activities.Main"
+            android:parentActivityName="com.an.dela.activities.Main"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.an.dela.activities.ChangeTask"
+            android:label="@string/app_name" >
+        </activity>
 
-        <receiver android:name=".receivers.OnAlarmTask" >
+        <receiver android:name="com.an.dela.receivers.OnAlarmTask" >
         </receiver>
     </application>
 

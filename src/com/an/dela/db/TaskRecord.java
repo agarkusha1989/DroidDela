@@ -38,6 +38,14 @@ public class TaskRecord extends Record {
 		return getString(TaskContract.COLUMN_NOTES, "");
 	}
 	
+	public int getPriority() {
+		return getInt(TaskContract.COLUMN_PRIORITY, -1);
+	}
+	
+	public int getStatus() {
+		return getInt(TaskContract.COLUMN_STATUS, -1);
+	}
+	
 	public Date getDateDatetime() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {

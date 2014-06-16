@@ -60,7 +60,7 @@ public class Main extends ListActivity {
 			actionTaskNotes(taskRecord);
 			return true;
 		case R.id.action_change:
-			
+			actionChangeTask(taskRecord);
 			return true;
 		case R.id.action_delete:
 			Db.getInstance(this).getTaskTable().delete(taskRecord);
@@ -99,7 +99,14 @@ public class Main extends ListActivity {
 		Intent intent = new Intent(this, TaskNotes.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra(TaskNotes.EXTRA_TASK_ID, taskRecord.getId());
-		this.startActivity(intent);
+		startActivity(intent);
+	}
+	
+	private void actionChangeTask(TaskRecord taskRecord) {
+		Intent intent = new Intent(this, ChangeTask.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(ChangeTask.EXTRA_TASK_ID, taskRecord.getId());
+		startActivity(intent);
 	}
 	
 	private void updateTaskListView() {
