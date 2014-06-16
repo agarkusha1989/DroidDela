@@ -1,6 +1,7 @@
 <resources>
 
     <string name="app_name">DroidDela</string>
+    <string name="actions">Actions</string>
     <string name="status">Status</string>
     <string name="priority">Priority</string>
     <string name="begin">Begin</string>
@@ -10,11 +11,16 @@
     <string name="enter_title">Enter title</string>
     <string name="action_add_task">Add Task</string>
     <string name="action_help">Help</string>
+    <string name="action_notes">Notes</string>
+    <string name="action_change">Change</string>
+    <string name="action_delete">Delete</string>
+    <string name="error_load_task">Error load task</string>
 
     <string-array name="priority">
         <item>High</item>
         <item>Medium</item>
         <item>Low</item>
     </string-array>
+    <string name="enter_notes">Enter notes</string>
 
 </resources>

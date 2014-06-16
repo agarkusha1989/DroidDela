@@ -3,12 +3,14 @@ package com.an.dela.activities;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.an.dela.R;
 import com.an.dela.activities.adapters.TaskListAdapter;
@@ -26,49 +28,86 @@ public class Main extends ListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		TaskRecord[] records = Db.getInstance(this).getTaskTable().select();
-
-		setListAdapter(new TaskListAdapter(this, records));
+		updateTaskListView();
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		TaskRecord item = (TaskRecord) getListAdapter().getItem(position);
-		Toast.makeText(this, "Выбрана задача: " + item, Toast.LENGTH_SHORT)
-				.show();
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    // Inflate the menu items for use in the action bar
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_actions, menu);
-	    return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {
-	        case R.id.action_add_task:
-	            actionAddTask();
-	            return true;
-	        case R.id.action_help:
-	        	actionHelp();
-	        	return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
-	
-	private void actionAddTask() {
-		Intent intent = new Intent(this, AddTask.class);
+
+		Intent intent = new Intent(this, TaskNotes.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(TaskNotes.EXTRA_TASK_ID, item.getId());
 		startActivity(intent);
 	}
-	
-	private void actionHelp() {
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.task_actions, menu);
+
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		TaskRecord taskRecord = (TaskRecord)getListAdapter().getItem(info.position);
 		
+		switch (item.getItemId()) {
+		case R.id.action_notes:
+			actionTaskNotes(taskRecord);
+			return true;
+		case R.id.action_change:
+			
+			return true;
+		case R.id.action_delete:
+			Db.getInstance(this).getTaskTable().delete(taskRecord);
+			updateTaskListView();
+			return true;
+		}
+		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu items for use in the action bar
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_actions, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle presses on the action bar items
+		switch (item.getItemId()) {
+		case R.id.action_add_task:
+			Intent intent = new Intent(this, AddTask.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			this.startActivity(intent);
+			return true;
+		case R.id.action_help:
+			
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private void actionTaskNotes(TaskRecord taskRecord) {
+		Intent intent = new Intent(this, TaskNotes.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(TaskNotes.EXTRA_TASK_ID, taskRecord.getId());
+		this.startActivity(intent);
+	}
+	
+	private void updateTaskListView() {
+		TaskRecord[] records = Db.getInstance(this).getTaskTable().select();
+
+		setListAdapter(new TaskListAdapter(this, records));
+
+		registerForContextMenu(getListView());
 	}
 
 }

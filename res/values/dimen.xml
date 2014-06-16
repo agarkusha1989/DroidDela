@@ -10,5 +10,6 @@
     <dimen name="field_wrapper_margin">10dp</dimen>
     <dimen name="text_size">20dp</dimen>
     <dimen name="text_size_small">14dp</dimen>
+    <dimen name="edit_text_padding">10dp</dimen>
     
 </resources>

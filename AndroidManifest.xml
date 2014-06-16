@@ -22,13 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AddTask"
+        <activity
+            android:name=".activities.AddTask"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activities.Main">
+            android:parentActivityName=".activities.Main"
+            android:screenOrientation="portrait" >
         </activity>
-        <receiver 
-            android:name=".receivers.OnAlarmTask">
+        <activity
+            android:name=".activities.TaskNotes"
+            android:label="@string/app_name"
+            android:parentActivityName=".activities.Main"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <receiver android:name=".receivers.OnAlarmTask" >
         </receiver>
     </application>
 

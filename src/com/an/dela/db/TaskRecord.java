@@ -26,6 +26,10 @@ public class TaskRecord extends Record {
 		return thisPriority.equals(priority);
 	}
 	
+	public int getId() {
+		return getInt(TaskContract.COLUMN_ID, 0);
+	}
+	
 	public String getTitle() {
 		return getString(TaskContract.COLUMN_TITLE, "");
 	}
