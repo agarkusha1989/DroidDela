@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="icon_width">64px</dimen>
+    <dimen name="icon_height">64px</dimen>
+    <dimen name="icon_margin">4px</dimen>
+    <dimen name="icon_margin_right">10px</dimen>
+    <dimen name="title_text_size">32px</dimen>
+    <dimen name="datetime_text_size">32px</dimen>
+    
+</resources>
